@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nttdata.bootcamp.product.entity.Product;
 import com.nttdata.bootcamp.product.entity.RequestproductDto;
+import com.nttdata.bootcamp.product.entity.ResponseDelete;
 import com.nttdata.bootcamp.product.service.IServiceProduct;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -51,7 +52,8 @@ public class ControllerProduct {
 	//@CircuitBreaker(name = "mycircuitbreaker", fallbackMethod = "fallback")
 	//@TimeLimiter(name = "timelimit")
 	//@Retry(name = "myRetry")
-	@PostMapping(path = "/saveproduct", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/saveproduct", produces = MediaType.APPLICATION_JSON_VALUE
+			, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<Product> save(@RequestBody RequestproductDto body)
 	{
 		return serviceProduct.productSave(body);
@@ -60,7 +62,8 @@ public class ControllerProduct {
 	//@CircuitBreaker(name = "mycircuitbreaker", fallbackMethod = "fallback")
 	//@TimeLimiter(name = "timelimit")
 	//@Retry(name = "myRetry")
-	@PutMapping(path = "/updateclient", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(path = "/updateclient", produces = MediaType.APPLICATION_JSON_VALUE
+			, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<Product> update(@RequestBody RequestproductDto body)
 	{
 		return serviceProduct.productUpdate(body);
@@ -69,14 +72,10 @@ public class ControllerProduct {
 	//@CircuitBreaker(name = "mycircuitbreaker", fallbackMethod = "fallback")
 	//@TimeLimiter(name = "timelimit")
 	//@Retry(name = "myRetry")
-	@DeleteMapping("/deleteclient/{id}")
-	public Mono<Void> delete(@PathVariable String id)
+	@DeleteMapping(path = "/deleteclient/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Mono<ResponseDelete> delete(@PathVariable String id)
 	{
 		return serviceProduct.productDelete(id);
 	}
-	
-    public String fallback(Exception e) {
-        return "Reintentos fallidos la comunicación con los servidores falló.";
-    }
 	
 }

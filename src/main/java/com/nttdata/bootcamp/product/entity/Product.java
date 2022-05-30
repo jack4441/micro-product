@@ -13,16 +13,11 @@ import lombok.Data;
 @Data
 @Builder
 public class Product implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8679693676390266508L;
-	@Id
-	private String id;
-	@Field
-	private String description;
-	@Field
-	private String category;
-
+private static final long serialVersionUID = -8679693676390266508L;
+@Id
+private String id;
+@Field
+private String description;
+@Field
+private String category;
 }

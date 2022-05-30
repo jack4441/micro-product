@@ -2,6 +2,7 @@ package com.nttdata.bootcamp.product.service;
 
 import com.nttdata.bootcamp.product.entity.Product;
 import com.nttdata.bootcamp.product.entity.RequestproductDto;
+import com.nttdata.bootcamp.product.entity.ResponseDelete;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,6 +19,6 @@ public interface IServiceProduct {
 	
 	Mono<Product> productUpdate(RequestproductDto request);
 	
-	Mono<Void> productDelete(String id);
+	Mono<ResponseDelete> productDelete(String id);
 	
 }

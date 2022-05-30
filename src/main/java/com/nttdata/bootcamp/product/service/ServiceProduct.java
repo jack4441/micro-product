@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.nttdata.bootcamp.product.entity.Product;
 import com.nttdata.bootcamp.product.entity.RequestproductDto;
+import com.nttdata.bootcamp.product.entity.ResponseDelete;
 import com.nttdata.bootcamp.product.repository.ProductRepository;
 
 import reactor.core.publisher.Flux;
@@ -51,9 +52,10 @@ public class ServiceProduct implements IServiceProduct {
 	}
 
 	@Override
-	public Mono<Void> productDelete(String id) {
+	public Mono<ResponseDelete> productDelete(String id) {
 		// TODO Auto-generated method stub
-		return productdao.deleteById(id);
+		productdao.deleteById(id).block(); 
+		return Mono.just(ResponseDelete.builder().response("Operación completada").build());
 	}
 
 	@Override
