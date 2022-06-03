@@ -19,6 +19,12 @@
 		<spring-cloud.version>2021.0.2</spring-cloud.version>
 	</properties>
 	<dependencies>
+		<dependency>
+		  <groupId>junit</groupId>     <!-- NOT org.junit here -->
+		  <artifactId>junit-dep</artifactId>
+		  <version>4.8.2</version>
+		  <scope>test</scope>
+		</dependency>
 		<!-- sonarqube -->
 		<dependency>
 			<groupId>org.sonarsource.scanner.maven</groupId>
@@ -147,32 +153,57 @@
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>3.0.0</version>
 			</plugin>
-			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-surefire-plugin</artifactId>
-			  <version>2.20</version>
-			</plugin>
 			<!-- sonarqube -->
+			<!-- https://maven.apache.org/surefire/maven-surefire-plugin/ -->
+		    <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-surefire-plugin</artifactId>
+		        <configuration>
+		            <systemPropertyVariables>
+		                <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
+		            </systemPropertyVariables>
+		        </configuration>
+		    </plugin>
+		    <plugin>
+		        <groupId>org.jacoco</groupId>
+		        <artifactId>jacoco-maven-plugin</artifactId>
+		        <version>0.8.6</version>
+		        <executions>
+		            <execution>
+		                <id>default-prepare-agent</id>
+		                <goals>
+		                    <goal>prepare-agent</goal>
+		                </goals>
+		            </execution>
+		            <execution>
+		                <id>default-report</id>
+		                <phase>prepare-package</phase>
+		                <goals>
+		                    <goal>report</goal>
+		                </goals>
+		            </execution>
+		        </executions>
+		    </plugin>
+		    <!-- sonarqube -->		    
+		    <!-- checkstyle -->
 			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.3</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.1.2</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
+							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<configLocation>google_checks.xml</configLocation>
+				</configuration>
 			</plugin>
-			<!-- sonarqube -->					
+			<!-- checkstyle -->	    				
 		</plugins>
 	</build>
 	
@@ -193,21 +224,25 @@
 		</profile>
 	</profiles>
 	<!-- sonarqube -->
-	
-	   <reporting>
-	      <plugins>
-	        <plugin>
-	          <groupId>org.apache.maven.plugins</groupId>
-	          <artifactId>maven-checkstyle-plugin</artifactId>
-	          <version>3.1.2</version>
-	          <reportSets>
-	            <reportSet>
-	              <reports>
-	                <report>checkstyle</report>
-	              </reports>
-	            </reportSet>
-	          </reportSets>
-	        </plugin>
-	      </plugins>
-	    </reporting>
+	<!-- checkstyle -->
+   <reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>3.1.2</version>
+          <!--<reportSets>
+            <reportSet>
+              <reports>
+                <report>checkstyle</report>
+              </reports>
+            </reportSet>
+          </reportSets>-->
+          <configuration>
+          	<configLocation>google_checks.xml</configLocation>
+          </configuration>
+        </plugin>
+      </plugins>
+    </reporting>
+    <!-- checkstyle -->
 </project>

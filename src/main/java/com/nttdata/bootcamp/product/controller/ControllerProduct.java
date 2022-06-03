@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 @RestController
 @RequestMapping("product/v1")
 public class ControllerProduct {
@@ -31,27 +30,18 @@ public class ControllerProduct {
 	@Autowired
 	IServiceProduct serviceProduct;
 	
-	//@CircuitBreaker(name = "mycircuitbreaker", fallbackMethod = "fallback")
-	//@TimeLimiter(name = "timelimit")
-	//@Retry(name = "myRetry")
 	@GetMapping(path = "/allproduct", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Flux<Product> getAll()
 	{
 		return serviceProduct.productFindAll();
 	}
 	
-	//@CircuitBreaker(name = "mycircuitbreaker", fallbackMethod = "fallback")
-	//@TimeLimiter(name = "timelimit")
-	//@Retry(name = "myRetry")
 	@GetMapping("/allproductbyid/{id}")
 	public Mono<Product> getOne(@PathVariable String id)
 	{
 		return serviceProduct.productFindOne(id);
 	}
 	
-	//@CircuitBreaker(name = "mycircuitbreaker", fallbackMethod = "fallback")
-	//@TimeLimiter(name = "timelimit")
-	//@Retry(name = "myRetry")
 	@PostMapping(path = "/saveproduct", produces = MediaType.APPLICATION_JSON_VALUE
 			, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<Product> save(@RequestBody RequestproductDto body)
@@ -59,9 +49,6 @@ public class ControllerProduct {
 		return serviceProduct.productSave(body);
 	}
 	
-	//@CircuitBreaker(name = "mycircuitbreaker", fallbackMethod = "fallback")
-	//@TimeLimiter(name = "timelimit")
-	//@Retry(name = "myRetry")
 	@PutMapping(path = "/updateclient", produces = MediaType.APPLICATION_JSON_VALUE
 			, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<Product> update(@RequestBody RequestproductDto body)
@@ -69,9 +56,6 @@ public class ControllerProduct {
 		return serviceProduct.productUpdate(body);
 	}
 	
-	//@CircuitBreaker(name = "mycircuitbreaker", fallbackMethod = "fallback")
-	//@TimeLimiter(name = "timelimit")
-	//@Retry(name = "myRetry")
 	@DeleteMapping(path = "/deleteclient/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Mono<ResponseDelete> delete(@PathVariable String id)
 	{
